@@ -50,4 +50,60 @@ class AppointmentBase(ABC):
             datetime.strptime(date_str, "%Y-%m-%d %H:%M")
             return True
         except ValueError:
-            return False        
+            return False       
+
+# --- Encapsulation (Getter & Setter Metotları) ---
+ 
+    # Appointment ID için getter
+    @property
+    def appointment_id(self):
+        return self._appointment_id
+
+    # Patient ID için getter
+    @property
+    def patient_id(self):
+        return self._patient_id
+
+    # Doctor Name için getter
+    @property
+    def doctor_name(self):
+        return self._doctor_name
+
+    # Doctor Name için setter
+    @doctor_name.setter
+    def doctor_name(self, value):
+        if isinstance(value, str) and len(value) > 0:
+            self._doctor_name = value
+        else:
+            raise ValueError("Doktor adı geçerli bir metin olmalıdır.")
+
+    # Date Time için getter
+    @property
+    def date_time(self):
+        return self._date_time
+
+    # Date Time için setter
+    @date_time.setter
+    def date_time(self, value):
+        if self.validate_date_format(value):
+            self._date_time = value
+        else:
+            print(f"Uyarı: {value} geçersiz format. (Beklenen: YYYY-MM-DD HH:MM)")
+
+    # Status için getter
+    @property
+    def status(self):
+        return self._status
+
+    # Status için setter
+    @status.setter
+    def status(self, value):
+        valid_statuses = ["Pending", "Confirmed", "Cancelled", "Completed", "Urgent"]
+        if value in valid_statuses:
+            self._status = value
+        else:
+            print(f"Uyarı: '{value}' geçerli bir statü değil.")
+
+    # Nesnenin string temsili (Debugging için)
+    def __str__(self):
+        return f"Randevu[{self._appointment_id}]: {self._doctor_name} - {self._date_time} ({self._status})"         
