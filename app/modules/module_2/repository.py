@@ -66,3 +66,60 @@ class AppointmentRepository:
         else:
             print(f"Hata: Silinecek randevu ID {appointment_id} bulunamadı.")
             return False
+
+    def list_all(self):
+        """
+        Sistemdeki tüm randevuları listeler.
+        
+        Returns:
+            list: Tüm randevu nesnelerinin listesi.
+        """
+        return self._storage
+
+    def list_by_doctor(self, doctor_name):
+        """
+        Belirli bir doktora ait tüm randevuları filtreler.
+        
+        Args:
+            doctor_name (str): Doktorun adı.
+            
+        Returns:
+            list: O doktora ait randevuların listesi.
+        """
+        result = []
+        for app in self._storage:
+            # Büyük/küçük harf duyarlılığını kaldırmak için lower() kullanıldı
+            if app.doctor_name.lower() == doctor_name.lower():
+                result.append(app)
+        return result
+
+    def filter_by_date(self, target_date):
+        """
+        Belirli bir tarihteki randevuları getirir.
+        
+        Args:
+            target_date (str): Aranacak tarih (Format: YYYY-MM-DD).
+            
+        Returns:
+            list: O güne ait randevular.
+        """
+        filtered_list = []
+        for app in self._storage:
+            # app.date_time formatı "YYYY-MM-DD HH:MM" olduğu için
+            # startswith ile sadece gün kısmını kontrol ediyoruz.
+            if str(app.date_time).startswith(target_date):
+                filtered_list.append(app)
+        
+        return filtered_list
+
+    def filter_by_status(self, status):
+        """
+        Durumuna göre (Örn: 'Pending', 'Urgent') randevuları filtreler.
+        """
+        return [app for app in self._storage if app.status == status]
+
+    def count(self):
+        """
+        Sistemdeki toplam kayıtlı randevu sayısını döner.
+        """
+        return len(self._storage)
