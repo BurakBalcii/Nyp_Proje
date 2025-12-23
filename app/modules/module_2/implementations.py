@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from typing import List, Dict, Optional, Tuple
-from .base import AppointmentBase
+from base import AppointmentBase
 import random
 import string
 
@@ -18,13 +18,14 @@ class RoutineAppointment(AppointmentBase):
         status: str = "scheduled",
         department: str = "Genel",
         is_followup: bool = False,
-        previous_appointment_id: Optional[str] = None
+        previous_appointment_id: Optional[str] = None,
+        examination_type = "Genel Muayene"
     ):
         super().__init__(appointment_id, patient_id, doctor_name, date_time, status)
         self.__department = department
         self.__is_followup = is_followup
         self.__previous_appointment_id = previous_appointment_id
-        self.__examination_type = "Genel Muayene"
+        self.__examination_type = examination_type 
         self.__estimated_duration = 30
     
     # Departman bilgisini döndürür

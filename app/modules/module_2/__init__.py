@@ -26,10 +26,10 @@ Ders: Nesne Yönelimli Programlama
 """
 
 # Base sınıfı import et
-from .base import AppointmentBase
+from base import AppointmentBase
 
 # Implementation sınıfları import et
-from .implementations import (
+from implementations import (
     RoutineAppointment,
     EmergencyAppointment,
     OnlineAppointment,
@@ -38,7 +38,7 @@ from .implementations import (
 )
 
 # Repository sınıfları import et
-from .repository import (
+from repository import (
     InMemoryAppointmentRepository,
     FileBasedAppointmentRepository
 )

@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import List, Optional, Dict
-from .base import AppointmentBase
+from base import AppointmentBase
 import json
 import os
 

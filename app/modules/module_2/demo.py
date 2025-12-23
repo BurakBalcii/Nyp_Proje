@@ -1,13 +1,20 @@
+import sys
+import os
+
+# Mevcut dosyanın bulunduğu dizini path'e ekle
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+
 from datetime import datetime, timedelta
-from .base import AppointmentBase
-from .implementations import (
+from base import AppointmentBase
+from implementations import (
     RoutineAppointment,
     EmergencyAppointment,
     OnlineAppointment,
     AppointmentService,
     Doctor
 )
-from .repository import InMemoryAppointmentRepository, FileBasedAppointmentRepository
+from repository import InMemoryAppointmentRepository, FileBasedAppointmentRepository
 
 
 # Polimorfizm örneği 1: Farklı randevu tiplerini tek listede işleme
@@ -203,8 +210,14 @@ def appointment_cancellation_scenario():
     success, message = service.postpone_appointment("APT200", new_date)
     print(f"   {message}")
     updated = repository.find_by_id("APT200")
-    print(f"   Yeni Tarih: {updated.date_time.strftime('%d.%m.%Y %H:%M')}")
-    print(f"   Durum: {updated.status}")
+    if updated:
+      print(f" Yeni Tarih: {updated.date_time.strftime('%d.%m.%Y %H:%M')}")
+      print(f"   Durum: {updated.status}")
+    else:
+      print("İşlem başarısız: Güncellenecek randevu bulunamadı.")
+      return 
+    
+    can_cancel = updated.can_be_cancelled()
     
     print("\n3. Randevu İptal Kontrolü:")
     can_cancel = updated.can_be_cancelled()
